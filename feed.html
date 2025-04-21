@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feeding Reminder</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe6e6, #fff3e6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      color: #ff6f61;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      border: 2px solid #ffd1c1;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+        background-color: #ff6f61;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      
+    }
+    a{
+        text-decoration: none;
+        background-color: #ff6f61;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: #e65a50;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Feeding Reminder 🐶</h1>
+    <input type="time" id="feedTime" />
+    <button onclick="setFeedingReminder()">Set Reminder</button>
+    <button class="back-btn" onclick="goToHomepage()">🏠 Back to Homepage</button>
+    <br>
+    <button style="margin-top: 20px;"> <a href="g-cal-add.html">Add to Google Calender</a> </button>
+  </div>
+
+  <script>
+    function setFeedingReminder() {
+      const feedTime = document.getElementById('feedTime').value;
+      localStorage.setItem('feedTime', feedTime);
+      alert(`Feeding time set for ${feedTime}`);
+    }
+    function goToHomepage() {
+      window.location.href = 'index.html'; // Change as needed
+    }
+  </script>
+</body>
+</html>

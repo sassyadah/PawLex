@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vaccination Tracker</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e3ffe7, #d9e7ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 450px;
+      width: 100%;
+    }
+    h1 {
+      color: #3d5afe;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      border: 2px solid #a0c4ff;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    a{
+        text-decoration: none;
+        background-color: #ff6f61;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button {
+      background-color: #3d5afe;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: #2b45c7;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Vaccination Tracker 💉</h1>
+    <input type="text" id="vaccineName" placeholder="Vaccine Name" />
+    <input type="date" id="vaccineDate" />
+    <button onclick="setVaccinationReminder()">Set Reminder</button>
+    <button class="back-btn" onclick="goToHomepage()">🏠 Back to Homepage</button>
+    <br>
+    <button style="margin-top: 20px;"> <a href="g-cal-add.html">Add to Google Calender</a> </button>
+  </div>
+
+  <script>
+    function goToHomepage() {
+      window.location.href = 'index.html'; // Change as needed
+    }
+    function setVaccinationReminder() {
+      const name = document.getElementById('vaccineName').value;
+      const date = document.getElementById('vaccineDate').value;
+      localStorage.setItem('vaccineName', name);
+      localStorage.setItem('vaccineDate', date);
+      alert(`Reminder for "${name}" on ${date} set.`);
+    }
+  </script>
+</body>
+</html>

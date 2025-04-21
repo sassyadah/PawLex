@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add to Google Calendar</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #fceabb, #f8b500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    h1 {
+      color: #e67e22;
+      margin-bottom: 20px;
+    }
+    select, input[type="time"], input[type="date"], button {
+      padding: 12px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 2px solid #e67e22;
+      outline: none;
+    }
+    button {
+      background-color: #e67e22;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #cf711f;
+    }
+    .back-btn {
+      margin-top: 20px;
+      background-color: #888;
+      border: none;
+    }
+    .back-btn:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Add Reminder to Google Calendar 📅</h1>
+    
+    <select id="reminderType">
+      <option value="Feeding">Feeding</option>
+      <option value="Walking">Walking</option>
+      <option value="Vaccination">Vaccination</option>
+      <option value="Checkup">Checkup</option>
+    </select>
+    
+    <br />
+    <input type="date" id="reminderDate" />
+    <br />
+    <input type="time" id="reminderTime" />
+    <br />
+    
+    <button onclick="addToGoogleCalendar()">Add Reminder</button>
+    
+    <br />
+    <button class="back-btn" onclick="goToHomepage()">🏠 Back to Homepage</button>
+  </div>
+
+  <script>
+    function addToGoogleCalendar() {
+      const type = document.getElementById('reminderType').value;
+      const date = document.getElementById('reminderDate').value;
+      const time = document.getElementById('reminderTime').value;
+
+      if (!date || !time) {
+        alert("Please select both date and time.");
+        return;
+      }
+
+      const cleanTime = time.replace(':', '') + '00';
+
+      const title = `Dog ${type}`;
+      const details = `It's time for your dog's ${type.toLowerCase()}.`;
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${date}T${cleanTime}/${date}T${cleanTime}&details=${encodeURIComponent(details)}&sf=true&output=xml`;
+
+      window.open(url, '_blank');
+    }
+
+    function goToHomepage() {
+      window.location.href = 'index.html'; // Change as needed
+    }
+  </script>
+</body>
+</html>

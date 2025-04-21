@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dog Profile ID Card</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 550px;
+    }
+
+    .form-box label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #555;
+    }
+
+    .form-box input,
+    .form-box textarea,
+    .form-box select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #f7b733;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      font-size: 1em;
+    }
+
+    .form-box button {
+      background-color: #f7b733;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+
+    .form-box button:hover {
+      background-color: #e09f3e;
+    }
+
+    .id-card {
+      margin-top: 40px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      border: 2px solid #f7b733;
+    }
+
+    .id-card h2 {
+      margin: 10px 0;
+      color: #e67e22;
+    }
+
+    .id-card p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .id-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      border: 3px solid #f7b733;
+    }
+
+    .fun-fact {
+      margin-top: 15px;
+      font-style: italic;
+      color: #444;
+    }
+
+    .download-btn {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🐶 Dog Profile Setup</h1>
+
+  <div class="form-box">
+    <label for="dogName">Dog's Name:</label>
+    <input type="text" id="dogName" />
+
+    <label for="dogAge">Age:</label>
+    <input type="number" id="dogAge" />
+
+    <label for="dogBreed">Breed:</label>
+    <select id="dogBreed" onchange="showFunFact()">
+      <option value="">Select Breed</option>
+      <option value="Golden Retriever">Golden Retriever</option>
+      <option value="Labrador">Labrador</option>
+      <option value="German Shepherd">German Shepherd</option>
+      <option value="Pug">Pug</option>
+      <option value="Beagle">Beagle</option>
+      <option value="Bulldog">Bulldog</option>
+      <option value="Mixed">Mixed</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label for="walkTime">Regular Walk Time:</label>
+    <input type="time" id="walkTime" />
+
+    <label for="feedTime">Feeding Time:</label>
+    <input type="time" id="feedTime" />
+
+    <label for="lastVaccine">Last Vaccinated:</label>
+    <input type="date" id="lastVaccine" />
+
+    <label for="nextVaccine">Upcoming Vaccination:</label>
+    <input type="date" id="nextVaccine" />
+
+    <label for="extraInfo">Special Notes / Traits:</label>
+    <textarea id="extraInfo" rows="3"></textarea>
+
+    <label for="dogImage">Upload Dog Photo:</label>
+    <input type="file" id="dogImage" accept="image/*" />
+
+    <button onclick="generateIdCard()">Generate ID Card</button>
+    <button class="back-btn" onclick="goToHomepage()">🏠 Back to Homepage</button>
+  </div>
+
+  <div id="idCard" class="id-card" style="display: none;">
+    <img id="previewImg" src="" alt="Dog Photo" />
+    <h2 id="cardName"></h2>
+    <p><strong>Age:</strong> <span id="cardAge"></span></p>
+    <p><strong>Breed:</strong> <span id="cardBreed"></span></p>
+    <p><strong>Walk Time:</strong> <span id="cardWalk"></span></p>
+    <p><strong>Feeding Time:</strong> <span id="cardFeed"></span></p>
+    <p><strong>Last Vaccinated:</strong> <span id="cardLastVac"></span></p>
+    <p><strong>Next Vaccination:</strong> <span id="cardNextVac"></span></p>
+    <p><strong>Notes:</strong> <span id="cardNotes"></span></p>
+    <div class="fun-fact" id="funFact"></div>
+    <button class="download-btn" onclick="downloadIdCard()">📥 Download ID Card</button>
+    
+  </div>
+
+  <script>
+    const breedFacts = {
+      "Golden Retriever": "Golden Retrievers are known for their gentle temperament and love for swimming.",
+      "Labrador": "Labradors are among the most popular dog breeds in the world and are known for their loyalty.",
+      "German Shepherd": "German Shepherds are highly intelligent and often used in police and military roles.",
+      "Pug": "Pugs were bred to be lap dogs for Chinese emperors and love attention.",
+      "Beagle": "Beagles have one of the best-developed senses of smell among all dog breeds.",
+      "Bulldog": "Despite their tough appearance, bulldogs are typically very gentle and calm.",
+      "Mixed": "Mixed breed dogs are often healthier due to genetic diversity!",
+      "Other": "Every dog is unique — no matter the breed!"
+    };
+
+    function showFunFact() {
+      const breed = document.getElementById("dogBreed").value;
+      document.getElementById("funFact").textContent = breedFacts[breed] || '';
+    }
+
+    function generateIdCard() {
+      const name = document.getElementById("dogName").value;
+      const age = document.getElementById("dogAge").value;
+      const breed = document.getElementById("dogBreed").value;
+      const walk = document.getElementById("walkTime").value;
+      const feed = document.getElementById("feedTime").value;
+      const lastVac = document.getElementById("lastVaccine").value;
+      const nextVac = document.getElementById("nextVaccine").value;
+      const notes = document.getElementById("extraInfo").value;
+      const imageInput = document.getElementById("dogImage");
+
+      if (!name || !age || !breed) {
+        alert("Please fill out all required fields.");
+        return;
+      }
+
+      document.getElementById("cardName").textContent = name;
+      document.getElementById("cardAge").textContent = age;
+      document.getElementById("cardBreed").textContent = breed;
+      document.getElementById("cardWalk").textContent = walk || "N/A";
+      document.getElementById("cardFeed").textContent = feed || "N/A";
+      document.getElementById("cardLastVac").textContent = lastVac || "N/A";
+      document.getElementById("cardNextVac").textContent = nextVac || "N/A";
+      document.getElementById("cardNotes").textContent = notes || "N/A";
+
+      showFunFact();
+
+      const file = imageInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById("previewImg").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        document.getElementById("previewImg").src = "https://cdn-icons-png.flaticon.com/512/616/616408.png";
+      }
+
+      document.getElementById("idCard").style.display = "block";
+    }
+
+    function downloadIdCard() {
+      const card = document.getElementById("idCard");
+      html2canvas(card).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'Dog_ID_Card.png';
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    }
+    function goToHomepage() {
+      window.location.href = 'index.html'; // Change as needed
+    }
+  </script>
+
+</body>
+</html>
